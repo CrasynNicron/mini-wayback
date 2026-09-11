@@ -143,11 +143,13 @@ function openArchive(filename, pageUrl) {
     const replayUrl =
         "https://replayweb.page/?source=" +
         encodeURIComponent(archiveUrl) +
-        "&url=" +
+        "#view=replay&url=" +
         encodeURIComponent(pageUrl);
 
     window.open(replayUrl, "_blank");
 }
+
+
 
 
 
