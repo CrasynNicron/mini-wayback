@@ -133,7 +133,7 @@
 
     <script>
 
-function openArchive(filename) {
+function openArchive(filename, pageUrl) {
 
     const archiveUrl =
         window.location.origin +
@@ -142,10 +142,13 @@ function openArchive(filename) {
 
     const replayUrl =
         "https://replayweb.page/?source=" +
-        encodeURIComponent(archiveUrl);
+        encodeURIComponent(archiveUrl) +
+        "&url=" +
+        encodeURIComponent(pageUrl);
 
     window.open(replayUrl, "_blank");
 }
+
 
 
 
@@ -214,7 +217,7 @@ function openArchive(filename) {
                     📦 ${archive.file}
                 </div>
 
-               <button onclick="openArchive('${archive.file}')">
+               <button onclick="openArchive('${archive.file}', '${archive.url}')">
     ▶️ Ver captura
 </button>
 
