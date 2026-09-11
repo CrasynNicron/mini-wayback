@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mini Wayback</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f4;
+            color: #202124;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .search-box {
+            display: flex;
+            margin-top: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 18px;
+            font-size: 18px;
+        }
+
+        button {
+            border: none;
+            background: #1976d2;
+            color: white;
+            padding: 0 30px;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #125ea8;
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .result strong {
+            color: #1976d2;
+            word-break: break-all;
+        }
+
+        .info {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+        }
+        .archive-item {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.archive-item button {
+    margin-top: 15px;
+    padding: 10px 18px;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🕰️ Mini Wayback</h1>
+
+        <p>
+            Viaja no tempo e consulta páginas arquivadas da Internet.
+        </p>
+
+        <form class="search-box" id="searchForm">
+
+            <input
+                type="text"
+                id="urlInput"
+                placeholder="https://example.com"
+                required
+            >
+
+            <button type="submit">
+                Pesquisar
+            </button>
+
+        </form>
+
+        <div class="result" id="result">
+        </div>
+
+        <div class="info">
+            O nosso arquivo está a nascer 🚀
+        </div>
+
+    </div>
+
+    <script>
+function openArchive(filename) {
+
+    const archiveUrl =
+        window.location.origin +
+        "/archives/" +
+        encodeURIComponent(filename);
+
+    const replayUrl =
+        "https://replayweb.page/?source=" +
+        encodeURIComponent(archiveUrl);
+
+    window.open(replayUrl, "_blank");
+}
+
+        const form = document.getElementById("searchForm");
+        const input = document.getElementById("urlInput");
+        const result = document.getElementById("result");
+
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const url = input.value;
+
+
+            const response = await fetch("/search", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+
+                body: new URLSearchParams({
+                    url: url
+                })
+
+            });
+
+
+            const data = await response.json();
+
+
+            result.style.display = "block";
+
+           if (data.results.length === 0) {
+
+    result.innerHTML = `
+        <h2>😔 Nenhuma captura encontrada</h2>
+
+        <p>
+            Ainda não temos esta página arquivada.
+        </p>
+    `;
+
+} else {
+
+    result.innerHTML = `
+        <h2>🕰️ Capturas encontradas</h2>
+
+        <p>
+            Encontrámos ${data.results.length} captura(s) para:
+        </p>
+
+        <strong>${data.url}</strong>
+
+        ${data.results.map(archive => `
+            <div class="archive-item">
+
+                <div>
+                    📅 ${archive.date}
+                </div>
+
+                <div>
+                    📦 ${archive.file}
+                </div>
+
+                <button onclick="openArchive('${archive.file}')">
+                    ▶️ Ver captura
+                </button>
+
+            </div>
+        `).join("")}
+    `;
+}
+
+
+        });
+
+    </script>
+
+</body>
+</html>
