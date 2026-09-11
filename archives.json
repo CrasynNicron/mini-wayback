@@ -2,6 +2,8 @@
     {
         "url": "https://example.com",
         "date": "2026-09-11",
-        "file": "mini-wayback---teste.wacz"
+        "file": "mini-wayback---teste.wacz",
+        "download_url": "https://github.com/CrasynNicron/mini-wayback/releases/download/v0.1.0/mini-wayback---teste.wacz"
     }
 ]
+

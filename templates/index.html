@@ -132,11 +132,12 @@
     </div>
 
     <script>
+
 function openArchive(filename) {
 
     const archiveUrl =
         window.location.origin +
-        "/archives/" +
+        "/wacz/" +
         encodeURIComponent(filename);
 
     const replayUrl =
@@ -145,6 +146,9 @@ function openArchive(filename) {
 
     window.open(replayUrl, "_blank");
 }
+
+
+
 
         const form = document.getElementById("searchForm");
         const input = document.getElementById("urlInput");
@@ -210,9 +214,10 @@ function openArchive(filename) {
                     📦 ${archive.file}
                 </div>
 
-                <button onclick="openArchive('${archive.file}')">
-                    ▶️ Ver captura
-                </button>
+               <button onclick="openArchive('${archive.file}')">
+    ▶️ Ver captura
+</button>
+
 
             </div>
         `).join("")}
